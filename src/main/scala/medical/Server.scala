@@ -2,7 +2,9 @@ package medical
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.{ConnectionContext, Http}
+
 import com.typesafe.config.ConfigFactory
+
 import net.ceedubs.ficus.Ficus._
 import net.ceedubs.ficus.readers.ArbitraryTypeReader._
 
@@ -22,8 +24,7 @@ object Server {
     implicit val dispatcher = system.dispatcher
     val logger = system.log
 
-    val store = Store(conf)
-    val router = Router(store)
+    val router = Router(conf, logger)
     val sslContext = SSLContextFactory.newInstance(sslContextConf)
     val httpsContext = ConnectionContext.httpsServer(sslContext)
     val server = Http()

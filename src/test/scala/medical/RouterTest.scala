@@ -2,26 +2,26 @@ package medical
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.testkit.{RouteTestTimeout, ScalatestRouteTest}
 import akka.testkit.TestDuration
+
 import com.typesafe.config.ConfigFactory
+
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
 class RouterTest extends AnyWordSpec with Matchers with ScalatestRouteTest  {
-  val logger = LoggerFactory.getLogger(getClass)
   val conf = ConfigFactory.load("router.conf")
   val actorRefFactory = ActorSystem.create(conf.getString("server.name"), conf.getConfig("akka"))
   implicit val dispatcher = system.dispatcher
   implicit val timeout = RouteTestTimeout(10.seconds dilated)
+  val logger = actorRefFactory.log
 
-  val store = Store(conf)
-  val router = Router(store)
+  val router = Router(conf, logger)
   val host = conf.getString("server.host")
   val port = conf.getInt("server.port")
   Http()
@@ -38,7 +38,7 @@ class RouterTest extends AnyWordSpec with Matchers with ScalatestRouteTest  {
   "getDietById" should {
     "return diet json" in {
       Get(conf.getString("rest.url")) ~> router.api ~> check {
-        status shouldBe StatusCodes.OK
+        status shouldBe OK
         val json = responseAs[String]
         logger.info(s"*** ServerTest: getDietById > $json")
         val diets = read[List[Diet]](json)
