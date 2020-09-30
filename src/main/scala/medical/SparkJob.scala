@@ -21,6 +21,7 @@ class SparkJob(conf: SparkJobConf) extends Logging {
     val sparkSession = SparkSession
       .builder
       .config(sparkConf)
+      .enableHiveSupport
       .getOrCreate()
     log.info(s"*** SparkJob: SparkSession created.")
 
