@@ -7,11 +7,10 @@ import akka.event.LoggingAdapter
 import de.heikoseeberger.akkahttpupickle.UpickleSupport._
 
 import scala.util.{Failure, Success}
-import scala.concurrent.ExecutionContextExecutor
 
 import upickle.default._
 
-class Router(val conf: SparkJobConf, logger: LoggingAdapter)(implicit dispatcher: ExecutionContextExecutor) {
+class Router(val conf: SparkJobConf, logger: LoggingAdapter) {
   val getDietById = path(LongNumber / LongNumber) { (patientId, encounterId) =>
     logger.info(s"*** Router: getDietById / patientId: $patientId / encounterId: $encounterId")
     onComplete(SparkJob(conf).listDietById(patientId, encounterId)) {
@@ -28,5 +27,5 @@ class Router(val conf: SparkJobConf, logger: LoggingAdapter)(implicit dispatcher
 }
 
 object Router {
-  def apply(conf: SparkJobConf, logger: LoggingAdapter)(implicit dispatcher: ExecutionContextExecutor): Router = new Router(conf, logger)
+  def apply(conf: SparkJobConf, logger: LoggingAdapter): Router = new Router(conf, logger)
 }

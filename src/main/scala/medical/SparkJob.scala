@@ -5,12 +5,11 @@ import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
 
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContextExecutor
 
 case class SparkJobConf(master: String, name: String)
 
 class SparkJob(conf: SparkJobConf) extends Logging {
-  def listDietById(patientId: Long, encounterId: Long)(implicit dispatcher: ExecutionContextExecutor): Future[List[Diet]] = {
+  def listDietById(patientId: Long, encounterId: Long): Future[List[Diet]] = {
     val sparkConf = new SparkConf()
       .setMaster(conf.master)
       .setAppName(conf.name)
@@ -31,8 +30,8 @@ class SparkJob(conf: SparkJobConf) extends Logging {
     log.info(s"*** SparkJob: Stopping")
     sparkSession.stop
 
-    // Must return a Future of List[Diet]!
-    Future( List[Diet]( Diet(1, 2, "Success", "Raw") ) )
+    // Must return a Future.successful(List[Diet])!
+    Future.successful[List[Diet]]( List[Diet]( Diet(1, 2, "Success", "Raw") ) )
   }
 }
 
