@@ -8,6 +8,9 @@ import akka.testkit.TestDuration
 
 import com.typesafe.config.ConfigFactory
 
+import net.ceedubs.ficus.Ficus._
+import net.ceedubs.ficus.readers.ArbitraryTypeReader._
+
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -16,12 +19,13 @@ import scala.language.postfixOps
 
 class RouterTest extends AnyWordSpec with Matchers with ScalatestRouteTest  {
   val conf = ConfigFactory.load("router.conf")
+  val sparkJobConf = conf.as[SparkJobConf]("spark")
   val actorRefFactory = ActorSystem.create(conf.getString("server.name"), conf.getConfig("akka"))
   implicit val dispatcher = system.dispatcher
   implicit val timeout = RouteTestTimeout(10.seconds dilated)
   val logger = actorRefFactory.log
 
-  val router = Router(conf, logger)
+  val router = Router(sparkJobConf, logger)
   val host = conf.getString("server.host")
   val port = conf.getInt("server.port")
   Http()

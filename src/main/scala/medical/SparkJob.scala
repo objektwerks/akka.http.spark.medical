@@ -1,10 +1,5 @@
 package medical
 
-import com.typesafe.config.Config
-
-import net.ceedubs.ficus.Ficus._
-import net.ceedubs.ficus.readers.ArbitraryTypeReader._
-
 import org.apache.spark.internal.Logging
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
@@ -14,13 +9,11 @@ import scala.concurrent.ExecutionContextExecutor
 
 case class SparkJobConf(master: String, name: String)
 
-class SparkJob(conf: Config) extends Logging {
-  val sparkJobConf = conf.as[SparkJobConf]("spark")
-
+class SparkJob(conf: SparkJobConf) extends Logging {
   def listDietById(patientId: Long, encounterId: Long)(implicit dispatcher: ExecutionContextExecutor): Future[List[Diet]] = {
     val sparkConf = new SparkConf()
-      .setMaster(sparkJobConf.master)
-      .setAppName(sparkJobConf.name)
+      .setMaster(conf.master)
+      .setAppName(conf.name)
       .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .registerKryoClasses(Array(classOf[Diet]))
     log.info(s"*** SparkJob: SparkConf loaded.")
@@ -43,5 +36,5 @@ class SparkJob(conf: Config) extends Logging {
 }
 
 object SparkJob {
-  def apply(conf: Config): SparkJob = new SparkJob(conf)
+  def apply(conf: SparkJobConf): SparkJob = new SparkJob(conf)
 }

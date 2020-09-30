@@ -18,13 +18,14 @@ object Server {
   def main(args: Array[String]): Unit = {
     val conf = ConfigFactory.load("server.conf")
     val (name, host, port) = conf.as[ServerConf]("server").tuple
+    val sparkJobConf = conf.as[SparkJobConf]("spark")
     val sslContextConf = conf.as[SSLContextConf]("ssl")
 
     implicit val system = ActorSystem.create(name, conf)
     implicit val dispatcher = system.dispatcher
     val logger = system.log
 
-    val router = Router(conf, logger)
+    val router = Router(sparkJobConf, logger)
     val sslContext = SSLContextFactory.newInstance(sslContextConf)
     val httpsContext = ConnectionContext.httpsServer(sslContext)
     val server = Http()
