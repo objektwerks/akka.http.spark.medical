@@ -1,0 +1,100 @@
+Configuration: For production, system enviroment variables ( i.e.,java -DHOST=abc.com -jar myapp.jar ) may be set.
+See: https://github.com/lightbend/config#optional-system-or-env-variable-overrides
+
+Host = localhost
+Port = 7676
+Password = password
+
+[ Create Server CA ]
+
+1. Create a self signed key pair root CA certificate.
+keytool -genkeypair -v \
+-alias localhostca \
+-dname "CN=localhostCA, OU=Localhost Org, O=Localhost Company, L=Local City, ST=FL C=US" \
+-keystore localhostca.jks \
+-keypass password \
+-storepass password \
+-keyalg RSA \
+-keysize 4096 \
+-ext KeyUsage:critical="keyCertSign" \
+-ext BasicConstraints:critical="ca:true" \
+-validity 9999
+
+2. Export the localhostCA public certificate as localhostca.crt so that it can be used in trust stores.
+keytool -export -v \
+-alias localhostca \
+-file localhostca.crt \
+-keypass password \
+-storepass password \
+-keystore localhostca.jks \
+-rfc
+  
+[ Create Localhost Certificate ]
+
+1.Create a server certificate, tied to localhost.
+keytool -genkeypair -v \
+-alias localhost \
+-dname "CN=localhost, OU=Localhost Org O=Localhost Company L=Local City ST=FL C=US" \
+-keystore localhost.jks \
+-keypass password \
+-storepass password \
+-keyalg RSA \
+-keysize 2048 \
+-validity 385
+
+2. Create a certificate signing request for localhost
+keytool -certreq -v \
+-alias localhost \
+-keypass password \
+-storepass password \
+-keystore localhost.jks \
+-file localhost.csr
+
+3. Tell localhostCA to sign the localhost certificate.
+keytool -gencert -v \
+-alias localhostca \
+-keypass password \
+-storepass password \
+-keystore localhostca.jks \
+-infile localhost.csr \
+-outfile localhost.crt \
+-ext KeyUsage:critical="digitalSignature,keyEncipherment" \
+-ext EKU="serverAuth" \
+-ext SAN="DNS:localhost" \
+-rfc
+
+4. Tell localhost.jks it can trust localhostca as a signer.
+keytool -import -v \
+-alias localhostca \
+-file localhostca.crt \
+-keystore localhost.jks \
+-storetype JKS \
+-storepass password << EOF
+yes
+EOF
+
+5. Import the signed certificate back into localhost.jks.
+keytool -import -v \
+-alias localhost \
+-file localhost.crt \
+-keystore localhost.jks \
+-storetype JKS \
+-storepass password
+
+6. List the contents of localhost.jks.
+keytool -list -v \
+-keystore localhost.jks \
+-storepass password
+
+[ Create PKCS12 Keystore ]
+
+1. Create a PKCS12 keystore containing the public and private keys.
+keytool -importkeystore -v \
+-srcalias localhost \
+-srckeystore localhost.jks \
+-srcstoretype jks \
+-srcstorepass password \
+-destkeystore localhost.p12 \
+-destkeypass password \
+-deststorepass password \
+-deststoretype PKCS12

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <timestamp key="timeStamp" datePattern="yyyyMMdd'T'HHmm"/>
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <file>./target/test.${timeStamp}.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <root level="DEBUG">
+        <appender-ref ref="file"/>
+    </root>
+</configuration>
