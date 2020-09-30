@@ -16,7 +16,7 @@ import scala.concurrent.ExecutionContextExecutor
 class Router(val conf: Config, logger: LoggingAdapter)(implicit dispatcher: ExecutionContextExecutor) {
   val getDietById = path(LongNumber / LongNumber) { (patientId, encounterId) =>
     logger.debug(s"*** Router: getDietById / patientId: $patientId / encounterId: $encounterId")
-    onComplete(SparkJob(conf, logger).listDietById(patientId, encounterId)) {
+    onComplete(SparkJob(conf).listDietById(patientId, encounterId)) {
       case Success(diets) => complete(OK -> write[List[Diet]](diets))
       case Failure(error) =>
         val message = error.getMessage
