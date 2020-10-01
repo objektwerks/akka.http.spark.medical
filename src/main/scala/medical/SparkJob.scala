@@ -10,7 +10,6 @@ case class SparkJobConf(master: String, name: String)
 
 class SparkJob(conf: SparkJobConf) extends Logging {
   def listDietById(patientId: Long, encounterId: Long): Future[List[Diet]] = {
-    System.setSecurityManager(null)
     val sparkConf = new SparkConf()
       .setMaster(conf.master)
       .setAppName(conf.name)
