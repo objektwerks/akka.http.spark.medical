@@ -41,3 +41,8 @@ Package
 -------
 >Using https://sbt-native-packager.readthedocs.io/en/stable/
 1. sbt universal:packageZipTarball | windows:packageBin
+
+Run
+---
+1. tar -xvzf ./target/universal/akka-http-spark-medical-0.1.tgz -C ./target/universal
+2. sh ./target/universal/akka-http-spark-medical-0.1/bin/akka-http-spark-medical
