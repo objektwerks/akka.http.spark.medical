@@ -38,17 +38,14 @@ Curl
 2. curl http://localhost:7676/api/v1/diet/1/1
 3. Enter any key to stop app.
 
-Package
--------
+Package and Run
+---------------
 1. sbt clean compile universal:packageZipTarball | windows:packageBin
+2. tar -xvzf ./target/universal/akka-http-spark-medical-0.1.tgz -C ./target/universal
+3. sh ./target/universal/akka-http-spark-medical-0.1/bin/akka-http-spark-medical
 
-Run
----
-1. tar -xvzf ./target/universal/akka-http-spark-medical-0.1.tgz -C ./target/universal
-2. sh ./target/universal/akka-http-spark-medical-0.1/bin/akka-http-spark-medical
-
-Submit
-------
+Spark Submit
+------------
 1. sbt clean compile package
 2. chmod +x submit.sh ( required only once )
 3. ./submit.sh
