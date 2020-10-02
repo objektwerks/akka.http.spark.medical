@@ -37,7 +37,7 @@ Curl
 
 Package
 -------
-1. sbt universal:packageZipTarball | windows:packageBin
+1. sbt clean compile universal:packageZipTarball | windows:packageBin
 
 Run
 ---
