@@ -35,10 +35,10 @@ class Server(conf: Config,
     val client = Http()
     client.singleRequest( HttpRequest(uri = s"http://$host:$port/$service") ).map { response =>
       response.entity.dataBytes.map(_.utf8String)
-        .runForeach( diet => logger.info(s"*** Flight Check [Success]: $diet") )
+        .runForeach( diet => logger.info(s"*** PreFlight Check [Success]: $diet") )
       true
     }.recover { case failure =>
-      logger.error(s"*** Flight Check [Failure]: ${failure.getMessage}")
+      logger.error(s"*** PreFlight Check [Failure]: ${failure.getMessage}")
       false
     }
   }
