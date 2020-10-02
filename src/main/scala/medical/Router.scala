@@ -10,10 +10,10 @@ import scala.util.{Failure, Success}
 
 import upickle.default._
 
-class Router(val conf: SparkJobConf, logger: LoggingAdapter) {
+class Router(val sparkInstance: SparkInstance, logger: LoggingAdapter) {
   val getDietById = path(LongNumber / LongNumber) { (patientId, encounterId) =>
     logger.info(s"*** Router: getDietById / patientId: $patientId / encounterId: $encounterId")
-    onComplete(SparkJob(conf).listDietById(patientId, encounterId)) {
+    onComplete( SparkJob(sparkInstance).listDietById(patientId, encounterId) ) {
       case Success(diets) => complete(OK -> write[List[Diet]](diets))
       case Failure(error) =>
         val message = error.getMessage
@@ -27,5 +27,5 @@ class Router(val conf: SparkJobConf, logger: LoggingAdapter) {
 }
 
 object Router {
-  def apply(conf: SparkJobConf, logger: LoggingAdapter): Router = new Router(conf, logger)
+  def apply(sparkInstance: SparkInstance, logger: LoggingAdapter): Router = new Router(sparkInstance, logger)
 }

@@ -27,11 +27,6 @@ Run
 ---
 1. sbt run
 
-Run Extended
-------------
->Run with optional system property args. See server.conf for **all** system properties with a ${?property} format.
-1. sbt "run -Dconfig.override_with_env_vars=true -Dhost=127.0.0.1 -Dport=7443"
-
 Curl
 ----
 >Run app and query rest service:

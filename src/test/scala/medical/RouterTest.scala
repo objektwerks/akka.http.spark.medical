@@ -19,21 +19,20 @@ import scala.language.postfixOps
 
 class RouterTest extends AnyWordSpec with Matchers with ScalatestRouteTest  {
   val conf = ConfigFactory.load("router.conf")
-  val sparkJobConf = conf.as[SparkJobConf]("spark")
+  val sparkInstanceConf = conf.as[SparkInstanceConf]("spark")
+
+  val sparkInstance = SparkInstance( sparkInstanceConf )
+
   val actorRefFactory = ActorSystem.create(conf.getString("server.name"), conf.getConfig("akka"))
   implicit val dispatcher = system.dispatcher
   implicit val timeout = RouteTestTimeout(10.seconds dilated)
   val logger = actorRefFactory.log
 
-  val router = Router(sparkJobConf, logger)
+  val router = Router(sparkInstance, logger)
   val host = conf.getString("server.host")
   val port = conf.getInt("server.port")
-  Http()
-    .newServerAt(host, port)
-    .bindFlow(router.api)
-    .map { server =>
-      logger.info(s"*** Test Server: ${server.localAddress.toString}")
-    }
+  val server = Http().bindAndHandle(router.api, host, port)
+  logger.info(s"*** Test Server started at: http://$host:$port")
 
   import de.heikoseeberger.akkahttpupickle.{UpickleSupport => Upickle}
   import Upickle._

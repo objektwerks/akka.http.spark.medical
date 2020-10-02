@@ -3,45 +3,41 @@ package medical
 import akka.actor.ActorSystem
 import akka.http.scaladsl.{ConnectionContext, Http}
 
-import com.typesafe.config.ConfigFactory
-
-import net.ceedubs.ficus.Ficus._
-import net.ceedubs.ficus.readers.ArbitraryTypeReader._
-
-import scala.io.StdIn
+import com.typesafe.config.Config
 
 case class ServerConf(name: String, host: String, port: Int) {
   def tuple: (String, String, Int) = (name, host, port)
 }
 
 object Server {
-  def main(args: Array[String]): Unit = {
-    val conf = ConfigFactory.load("server.conf")
-    val (name, host, port) = conf.as[ServerConf]("server").tuple
-    val sparkJobConf = conf.as[SparkJobConf]("spark")
-    val sslContextConf = conf.as[SSLContextConf]("ssl")
+  def apply(conf: Config,
+            serverConf: ServerConf,
+            sslContextConf: SSLContextConf,
+            sparkInstance: SparkInstance): Server = new Server(conf, serverConf, sslContextConf, sparkInstance)
+}
 
-    implicit val system = ActorSystem.create(name, conf)
-    implicit val dispatcher = system.dispatcher
-    val logger = system.log
+class Server(conf: Config,
+             serverConf: ServerConf,
+             sslContextConf: SSLContextConf,
+             sparkInstance: SparkInstance) {
+    private val (name, host, port) = serverConf.tuple
 
-    val router = Router(sparkJobConf, logger)
-    val sslContext = SSLContextFactory.newInstance(sslContextConf)
-    val httpsContext = ConnectionContext.httpsServer(sslContext)
-    val server = Http()
-      .newServerAt(host, port)
-      .enableHttps(httpsContext)
-      .bindFlow(router.api)
+    private implicit val system = ActorSystem.create(name, conf)
+    private implicit val dispatcher = system.dispatcher
+    private val logger = system.log
 
+    private val router = Router(sparkInstance, logger)
+    private val sslContext = SSLContextFactory.newInstance(sslContextConf)
+    private val httpsContext = ConnectionContext.https(sslContext)
+    Http().setDefaultClientHttpsContext(httpsContext)
+    private val server = Http().bindAndHandle(router.api, host, port)
     logger.info(s"*** SSL context conf: ${sslContextConf.toString}")
     logger.info(s"*** Server started at https://$host:$port/\nPress RETURN to stop...")
 
-    StdIn.readLine()
-    server
-      .flatMap(_.unbind)
-      .onComplete { _ =>
-        system.terminate
-        logger.info("Server stopped.")
-      }
-  }
+    def shutdown(): Unit = {
+      server
+        .flatMap(_.unbind)
+        .onComplete { _ => system.terminate }
+      logger.info(s"*** Server at https://$host:$port/ stopped.")
+    }
 }
