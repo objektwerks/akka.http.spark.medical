@@ -50,7 +50,6 @@ Run
 
 Submit
 ------
-1. sbt universal:packageZipTarball | windows:packageBin 
-2. tar -xvzf ./target/universal/akka-http-spark-medical-0.1.tgz -C ./target/universal
-3. chmod +x submit.sh ( required only once )
-4. ./submit.sh
+1. sbt clean compile package
+2. chmod +x submit.sh ( required only once )
+3. ./submit.sh
