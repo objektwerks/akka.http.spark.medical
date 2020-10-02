@@ -40,7 +40,7 @@ Curl
 
 Package and Run
 ---------------
-1. sbt clean compile universal:packageZipTarball | windows:packageBin
+1. sbt clean test universal:packageZipTarball | windows:packageBin
 2. tar -xvzf ./target/universal/akka-http-spark-medical-0.1.tgz -C ./target/universal
 3. sh ./target/universal/akka-http-spark-medical-0.1/bin/akka-http-spark-medical
 
