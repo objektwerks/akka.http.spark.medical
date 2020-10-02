@@ -12,12 +12,11 @@ final case class SparkJob(sparkInstance: SparkInstance) extends Logging with Pro
 
     log.info(s"*** SparkJob: Processing patient id ($patientId) and encounter id ($encounterId)...")
 
-    val diet = List( Diet(patientId = 1, encounterId = 1, status = "Good", diet = "Raw") )
-    val dietDataset = diet.toDS
+    val dietAsList = List( Diet(patientId = 1, encounterId = 1, status = "Good", diet = "Raw") )
+    val dietTransformedAsDataset = dietAsList.toDS
       .withColumn("status", lower($"status"))
       .withColumn("diet", lower($"diet"))
       .as[Diet]
-    val dietTransformed = dietDataset.collect.toList
-    Future.successful[List[Diet]]( dietTransformed )
+    Future.successful[List[Diet]]( dietTransformedAsDataset.collect.toList )
   }
 }
