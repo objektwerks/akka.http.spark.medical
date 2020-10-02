@@ -11,11 +11,10 @@ object App {
   def main(args: Array[String]): Unit = {
     val conf = ConfigFactory.load("app.conf")
     val serverConf = conf.as[ServerConf]("server")
-    val sslContextConf = conf.as[SSLContextConf]("ssl")
     val sparkInstanceConf = conf.as[SparkInstanceConf]("spark")
 
     val sparkInstance = SparkInstance(sparkInstanceConf)
-    val server = Server(conf, serverConf, sslContextConf, sparkInstance)
+    val server = Server(conf, serverConf, sparkInstance)
 
     server.flightCheck.map( result => require(result, "*** Flight Check failed!") )
 

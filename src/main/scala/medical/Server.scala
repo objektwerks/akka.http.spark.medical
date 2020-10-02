@@ -2,7 +2,7 @@ package medical
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model.HttpRequest
-import akka.http.scaladsl.{ConnectionContext, Http}
+import akka.http.scaladsl.Http
 
 import com.typesafe.config.Config
 
@@ -15,13 +15,11 @@ case class ServerConf(name: String, host: String, port: Int, service: String) {
 object Server {
   def apply(conf: Config,
             serverConf: ServerConf,
-            sslContextConf: SSLContextConf,
-            sparkInstance: SparkInstance): Server = new Server(conf, serverConf, sslContextConf, sparkInstance)
+            sparkInstance: SparkInstance): Server = new Server(conf, serverConf, sparkInstance)
 }
 
 class Server(conf: Config,
              serverConf: ServerConf,
-             sslContextConf: SSLContextConf,
              sparkInstance: SparkInstance) {
   private val (name, host, port, service) = serverConf.tuple
 
@@ -30,17 +28,12 @@ class Server(conf: Config,
   private val logger = system.log
 
   private val router = Router(sparkInstance, logger)
-  private val sslContext = SSLContextFactory.newInstance(sslContextConf)
-  private val httpsContext = ConnectionContext.https(sslContext)
-  Http().setDefaultServerHttpContext(httpsContext)
   private val server = Http().bindAndHandle(router.api, host, port)
-  logger.info(s"*** SSL context conf: ${sslContextConf.toString}")
-  logger.info(s"*** Server started at https://$host:$port/\nPress RETURN to stop...")
+  logger.info(s"*** Server started at http://$host:$port/\nPress RETURN to stop...")
 
   def flightCheck: Future[Boolean] = {
     val client = Http()
-    client.setDefaultServerHttpContext(httpsContext)
-    client.singleRequest( HttpRequest(uri = s"https://$host:$port/$service") ).map { response =>
+    client.singleRequest( HttpRequest(uri = s"http://$host:$port/$service") ).map { response =>
       response.entity.dataBytes.map(_.utf8String)
         .runForeach( diet => logger.info(s"*** Flight Check [Success]: $diet") )
       true
