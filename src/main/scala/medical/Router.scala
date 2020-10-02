@@ -13,7 +13,7 @@ import upickle.default._
 class Router(val sparkInstance: SparkInstance, logger: LoggingAdapter) {
   val getDietById = path(LongNumber / LongNumber) { (patientId, encounterId) =>
     logger.info(s"*** Router: getDietById / patientId: $patientId / encounterId: $encounterId")
-    onComplete( SparkJob(sparkInstance).listDietById(patientId, encounterId) ) {
+    onComplete( SparkJob(sparkInstance).listDietByIds(patientId, encounterId) ) {
       case Success(diets) => complete(OK -> write[List[Diet]](diets))
       case Failure(error) =>
         val message = error.getMessage
