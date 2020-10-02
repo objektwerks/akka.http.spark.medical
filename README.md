@@ -20,6 +20,10 @@ Java
 ----
 >Must use Java 8 due to Spark constraints.
 
+Logging
+-------
+>Log4j is used due to a Spark constraint.
+
 Test
 ----
 1. sbt clean test
