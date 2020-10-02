@@ -16,7 +16,7 @@ object App {
     val sparkInstance = SparkInstance(sparkInstanceConf)
     val server = Server(conf, serverConf, sparkInstance)
 
-    server.flightCheck.map( result => require(result, "*** Flight Check failed!") )
+    server.preFlightCheck.map( clearedToFly => require(clearedToFly, "*** PreFlight Check failed! You are not cleared to fly!") )
 
     StdIn.readLine()
     sparkInstance.shutdown()

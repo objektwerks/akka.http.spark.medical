@@ -5,10 +5,10 @@ Akka Http Spark Medical
 
 Design
 ------
->App create an embedded Akka-Http Server and SparkInstance to be used by all SparkJob instances created
->by Router. See:
+>App creates an embedded Akka-Http Server and SparkInstance to be used by all SparkJob instances created
+>by Router. The following sequence applies:
 1. App --- create ---> Server | SparkInstance
-2. App --- run ---> Server.flightCheck
+2. App --- run ---> Server.preFlightCheck
 3. Client --- http get request ---> Router --- request ---> SparkJob
 4. SparkJob --- response ---> Router --- http response ---> Client
 

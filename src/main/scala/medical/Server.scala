@@ -31,7 +31,7 @@ class Server(conf: Config,
   private val server = Http().bindAndHandle(router.api, host, port)
   logger.info(s"*** Server started at http://$host:$port/\nPress RETURN to stop...")
 
-  def flightCheck: Future[Boolean] = {
+  def preFlightCheck: Future[Boolean] = {
     val client = Http()
     client.singleRequest( HttpRequest(uri = s"http://$host:$port/$service") ).map { response =>
       response.entity.dataBytes.map(_.utf8String)
