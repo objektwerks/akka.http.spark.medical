@@ -27,11 +27,13 @@ Test
 Run
 ---
 1. sbt run
+2. Enter any key to stop app.
 
 Curl
 ----
 1. sbt run
 2. curl http://localhost:7676/api/v1/diet/1/1
+3. Enter any key to stop app.
 
 Package
 -------
