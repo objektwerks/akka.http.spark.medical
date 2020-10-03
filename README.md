@@ -44,12 +44,13 @@ Curl
 
 Package and Run
 ---------------
-1. sbt clean test universal:packageZipTarball | windows:packageBin
+1. sbt clean compile universal:packageZipTarball | windows:packageBin
 2. tar -xvzf ./target/universal/akka-http-spark-medical-0.1.tgz -C ./target/universal
 3. sh ./target/universal/akka-http-spark-medical-0.1/bin/akka-http-spark-medical
 
 Spark Submit
 ------------
-1. sbt clean test package
+>Note: Not working at this time. A work-in-progress.
+1. sbt clean compile package
 2. chmod +x submit.sh ( required only once )
 3. ./submit.sh
