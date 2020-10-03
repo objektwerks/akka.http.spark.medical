@@ -15,7 +15,7 @@ object Router {
 }
 
 class Router(val sparkInstance: SparkInstance, logger: LoggingAdapter) {
-  val listDietsByIds = path(LongNumber / LongNumber) { (patientId, encounterId) =>
+  private val listDietsByIds = path(LongNumber / LongNumber) { (patientId, encounterId) =>
     logger.info(s"*** Router: listDietsByIds / patientId: $patientId / encounterId: $encounterId")
     onComplete( SparkJob(sparkInstance).listDietsByIds(patientId, encounterId) ) {
       case Success(diets) => complete(OK -> write[List[Diet]](diets))
