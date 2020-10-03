@@ -10,7 +10,9 @@ Design
 2. App --- check ---> Server | Router | SparkJob | SparkInstance
 3. Client --- http request ---> Router 
 4. Router --- create ---> SparkJob
-5. Router --- request ---> SparkJob --- response ---> Router --- http response ---> Client
+5. Router --- request ---> SparkJob
+6. SparkJob --- response ---> Router
+7. Router --- http response ---> Client
 
 Scala
 -----
