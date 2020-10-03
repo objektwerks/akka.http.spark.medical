@@ -12,7 +12,7 @@ final case class SparkJob(sparkInstance: SparkInstance) extends Logging with Pro
 
     log.info(s"*** SparkJob: Processing patient id ($patientId) and encounter id ($encounterId)...")
 
-    val dietAsList = List( Diet(patientId = 1, encounterId = 1, status = "Good", diet = "Raw") )
+    val dietAsList = List( Diet(patientId, encounterId, status = "Good", diet = "Raw") )
     val dietTransformedAsDataset = dietAsList.toDS
       .withColumn("status", lower($"status"))
       .withColumn("diet", lower($"diet"))
