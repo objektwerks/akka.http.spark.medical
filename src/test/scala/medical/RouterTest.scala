@@ -38,12 +38,12 @@ class RouterTest extends AnyWordSpec with Matchers with ScalatestRouteTest  {
   import Upickle._
   import upickle.default._
 
-  "getDietById" should {
-    "return diet json" in {
+  "listDietsByIds" should {
+    "return diets json" in {
       Get(conf.getString("rest.url")) ~> router.api ~> check {
         status shouldBe OK
         val json = responseAs[String]
-        logger.info(s"*** ServerTest: getDietById > $json")
+        logger.info(s"*** RouterTest: listDietsByIds > $json")
         val diets = read[List[Diet]](json)
         diets.nonEmpty shouldBe true
         diets foreach { diet => assert(diet.isValid) }
