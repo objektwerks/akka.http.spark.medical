@@ -1,15 +1,16 @@
 Akka Http Spark Medical
 -----------------------
->This project contains an app that exports an Akka Http REST service, allowing for
->the querying of diet data, by patient and encounter ids, via a medical Spark job.
+>This project contains an app that exports an Akka Http REST service,
+>which allows for the querying of diet data via a Spark job.
 
 Design
 ------
 >Sequence scenario:
-1. App --- create ---> Server | SparkInstance
-2. App --- verify ---> Server.preFlightCheck
-3. Client --- http request ---> Router --- request ---> SparkJob
-4. SparkJob --- response ---> Router --- http response ---> Client
+1. App --- create ---> SparkInstance | Server | Router
+2. App --- check ---> Server | Router | SparkJob | SparkInstance
+3. Client --- http request ---> Router 
+4. Router --- create ---> SparkJob
+5. Router --- request ---> SparkJob --- response ---> Router --- http response ---> Client
 
 Scala
 -----
