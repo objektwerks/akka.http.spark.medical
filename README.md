@@ -50,7 +50,6 @@ Package and Run
 
 Spark Submit
 ------------
->Note: Not working at this time. A work-in-progress.
 1. sbt clean compile package
 2. chmod +x submit.sh ( required only once )
 3. ./submit.sh
