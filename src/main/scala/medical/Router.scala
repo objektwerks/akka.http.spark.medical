@@ -10,6 +10,10 @@ import scala.util.{Failure, Success}
 
 import upickle.default._
 
+object Router {
+  def apply(sparkInstance: SparkInstance, logger: LoggingAdapter): Router = new Router(sparkInstance, logger)
+}
+
 class Router(val sparkInstance: SparkInstance, logger: LoggingAdapter) {
   val listDietsByIds = path(LongNumber / LongNumber) { (patientId, encounterId) =>
     logger.info(s"*** Router: listDietsByIds / patientId: $patientId / encounterId: $encounterId")
@@ -24,8 +28,4 @@ class Router(val sparkInstance: SparkInstance, logger: LoggingAdapter) {
   val api = pathPrefix("api" / "v1" / "diet") {
     listDietsByIds
   }
-}
-
-object Router {
-  def apply(sparkInstance: SparkInstance, logger: LoggingAdapter): Router = new Router(sparkInstance, logger)
 }
