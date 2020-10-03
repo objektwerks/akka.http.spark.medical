@@ -1,7 +1,7 @@
 Akka Http Spark Medical
 -----------------------
->This project exports an Akka Http REST service that selects diet data from a medical Spark job based on
->patient and encounter id values.
+>This project contains an app that exports an Akka Http REST service, allowing for
+>the querying of diet data, by patient and encounter ids, via a medical Spark job.
 
 Design
 ------
