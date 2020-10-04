@@ -1,7 +1,7 @@
 Akka Http Spark Medical
 -----------------------
->This project contains an app that exports an Akka Http REST service,
->which allows for the querying of diet data via a Spark job.
+>This project contains an app that exports an embedded Akka Http REST
+>service, which allows for the querying of diet data via a Spark job.
 
 Design
 ------
@@ -16,15 +16,15 @@ Design
 
 Scala
 -----
->Must use Scala 2.11 due to Spark constraints.
+>**Must** use Scala 2.11 due to Spark constraints.
 
 Java
 ----
->Must use Java 8 due to Spark constraints.
+>**Must** use Java 8 due to Spark constraints.
 
 Logging
 -------
->Log4j is used due to a Spark constraint.
+>**Must** use Log4j due to a Spark constraint.
 
 Compile
 -------
