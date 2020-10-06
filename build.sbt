@@ -7,7 +7,7 @@ scalaVersion := "2.11.12"
 libraryDependencies ++= {
   val akkaVersion = "2.5.31"
   val akkkHttpVersion = "10.1.12"
-  val sparkVersion = "2.4.4"
+  val sparkVersion = "2.4.6"
   Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
