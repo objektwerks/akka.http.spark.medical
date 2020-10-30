@@ -16,7 +16,7 @@ Design
 
 Scala
 -----
->**Must** use Scala 2.11 due to Spark constraints.
+>This project uses Scala 2.12.12 and Spark 3.0.1.
 
 Java
 ----
@@ -48,8 +48,8 @@ Curl
 Package and Run
 ---------------
 1. sbt clean compile universal:packageZipTarball | windows:packageBin
-2. tar -xvzf ./target/universal/akka-http-spark-medical-0.1.tgz -C ./target/universal
-3. sh ./target/universal/akka-http-spark-medical-0.1/bin/akka-http-spark-medical
+2. tar -xvzf ./target/universal/akka-http-spark-medical-${VERSION}.tgz -C ./target/universal
+3. sh ./target/universal/akka-http-spark-medical-${VERSION}/bin/akka-http-spark-medical
 
 Spark Submit
 ------------

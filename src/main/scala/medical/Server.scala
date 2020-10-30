@@ -31,6 +31,7 @@ class Server(conf: Config,
   private val server = Http()
     .newServerAt(host, port)
     .bindFlow(router.api)
+  
   logger.info(s"*** Server started at http://$host:$port/\nPress RETURN to stop...")
 
   def preFlightCheck: Future[Boolean] = {
