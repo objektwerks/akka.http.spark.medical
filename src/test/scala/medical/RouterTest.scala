@@ -31,7 +31,10 @@ class RouterTest extends AnyWordSpec with Matchers with ScalatestRouteTest  {
   val router = Router(sparkInstance, logger)
   val host = conf.getString("server.host")
   val port = conf.getInt("server.port")
-  val server = Http().bindAndHandle(router.api, host, port)
+  val server = Http()
+    .newServerAt(host, port)
+    .bindFlow(router.api)
+
   logger.info(s"*** Test Server started at: http://$host:$port")
 
   import de.heikoseeberger.akkahttpupickle.{UpickleSupport => Upickle}

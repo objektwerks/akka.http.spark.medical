@@ -28,7 +28,9 @@ class Server(conf: Config,
   private val logger = system.log
 
   private val router = Router(sparkInstance, logger)
-  private val server = Http().bindAndHandle(router.api, host, port)
+  private val server = Http()
+    .newServerAt(host, port)
+    .bindFlow(router.api)
   logger.info(s"*** Server started at http://$host:$port/\nPress RETURN to stop...")
 
   def preFlightCheck: Future[Boolean] = {
