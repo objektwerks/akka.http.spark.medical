@@ -3,11 +3,11 @@ enablePlugins(JavaAppPackaging)
 name := "akka.http.spark.medical"
 organization := "objektwerks"
 version := "0.1-SNAPSHOT"
-scalaVersion := "2.12.12"
+scalaVersion := "2.12.13"
 libraryDependencies ++= {
   val akkaVersion = "2.6.10"
-  val akkkHttpVersion = "10.2.1"
-  val sparkVersion = "3.0.1"
+  val akkkHttpVersion = "10.2.2"
+  val sparkVersion = "3.1.0"
   Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
