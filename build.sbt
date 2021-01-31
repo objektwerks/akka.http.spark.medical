@@ -5,7 +5,7 @@ organization := "objektwerks"
 version := "0.1-SNAPSHOT"
 scalaVersion := "2.12.13"
 libraryDependencies ++= {
-  val akkaVersion = "2.6.11"
+  val akkaVersion = "2.6.12"
   val akkkHttpVersion = "10.2.3"
   val sparkVersion = "3.1.0"
   Seq(
@@ -13,11 +13,11 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
     "com.typesafe.akka" %% "akka-http" % akkkHttpVersion,
     "com.typesafe.akka" %% "akka-stream" % akkaVersion,
-    "de.heikoseeberger" %% "akka-http-upickle" % "1.35.2",
+    "de.heikoseeberger" %% "akka-http-upickle" % "1.35.3",
     "org.apache.spark" %% "spark-core" % sparkVersion,
     "org.apache.spark" %% "spark-sql" % sparkVersion,
     "org.apache.spark" %% "spark-hive" % sparkVersion,
-    "com.lihaoyi" %% "upickle" % "1.2.2",
+    "com.lihaoyi" %% "upickle" % "1.2.3",
     "com.typesafe" % "config" % "1.4.0",
     "com.iheart" %% "ficus" % "1.5.0",
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test,
