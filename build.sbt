@@ -22,6 +22,6 @@ libraryDependencies ++= {
     "com.iheart" %% "ficus" % "1.5.0",
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test,
     "com.typesafe.akka" %% "akka-http-testkit" % akkkHttpVersion % Test,
-    "org.scalatest" %% "scalatest" % "3.2.4" % Test
+    "org.scalatest" %% "scalatest" % "3.2.5" % Test
   )
 }
