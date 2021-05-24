@@ -17,7 +17,7 @@ libraryDependencies ++= {
     "org.apache.spark" %% "spark-core" % sparkVersion,
     "org.apache.spark" %% "spark-sql" % sparkVersion,
     "org.apache.spark" %% "spark-hive" % sparkVersion,
-    "com.lihaoyi" %% "upickle" % "1.3.11",
+    "com.lihaoyi" %% "upickle" % "1.3.15",
     "com.typesafe" % "config" % "1.4.0",
     "com.iheart" %% "ficus" % "1.5.0",
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test,
