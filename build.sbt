@@ -13,7 +13,7 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
     "com.typesafe.akka" %% "akka-http" % akkkHttpVersion,
     "com.typesafe.akka" %% "akka-stream" % akkaVersion,
-    "de.heikoseeberger" %% "akka-http-upickle" % "1.36.0",
+    "de.heikoseeberger" %% "akka-http-upickle" % "1.37.0",
     "org.apache.spark" %% "spark-core" % sparkVersion,
     "org.apache.spark" %% "spark-sql" % sparkVersion,
     "org.apache.spark" %% "spark-hive" % sparkVersion,
