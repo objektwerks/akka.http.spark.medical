@@ -1,6 +1,6 @@
 Akka Http Spark Medical
 -----------------------
->This project contains an app that exports an embedded Akka Http REST
+>This project contains an app that exports an embedded Akka-Http REST
 >service, which allows for the querying of diet data via a Spark job.
 
 Design
