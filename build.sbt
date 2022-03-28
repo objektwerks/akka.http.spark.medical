@@ -5,7 +5,7 @@ organization := "objektwerks"
 version := "0.1-SNAPSHOT"
 scalaVersion := "2.13.8"
 libraryDependencies ++= {
-  val akkaVersion = "2.6.18"
+  val akkaVersion = "2.6.19"
   val akkkHttpVersion = "10.2.9"
   val sparkVersion = "3.2.1"
   Seq(
