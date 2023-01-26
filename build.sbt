@@ -5,8 +5,8 @@ organization := "objektwerks"
 version := "0.1-SNAPSHOT"
 scalaVersion := "2.13.10"
 libraryDependencies ++= {
-  val akkaVersion = "2.7.0"
-  val akkkHttpVersion = "10.4.0"
+  val akkaVersion = "2.6.20" // Don't upgrade due to BSL 1.1!
+  val akkkHttpVersion = "10.2.10" // Don't upgrade due to BSL 1.1!
   val sparkVersion = "3.3.1"
   Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
