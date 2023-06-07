@@ -3,7 +3,7 @@ enablePlugins(JavaAppPackaging)
 name := "akka.http.spark.medical"
 organization := "objektwerks"
 version := "0.1-SNAPSHOT"
-scalaVersion := "2.13.10"
+scalaVersion := "2.13.11"
 libraryDependencies ++= {
   val akkaVersion = "2.6.20" // Don't upgrade due to BUSL 1.1!
   val akkkHttpVersion = "10.2.10" // Don't upgrade due to BUSL 1.1!
