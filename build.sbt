@@ -7,7 +7,7 @@ scalaVersion := "2.13.16"
 libraryDependencies ++= {
   val akkaVersion = "2.6.21" // Don't upgrade due to BUSL 1.1!
   val akkkHttpVersion = "10.2.10" // Don't upgrade due to BUSL 1.1!
-  val sparkVersion = "3.5.3"
+  val sparkVersion = "3.5.4"
   Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
